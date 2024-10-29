@@ -1,50 +1,53 @@
-﻿namespace Programming_Learning_Windows_App
+﻿using Programming_Learning_Windows_App;
+
+namespace Programming_Learning_App
 {
     public class Repeat : Command
     {
-        List<Command> commands = new List<Command>();
+        public List<Command> Commands { get; } = new List<Command>();
+        public int CommandsCount { get; private set; }
+        public int RepeatsCount { get; private set; }
+        public int MaxRecursion { get; private set; }
 
-        // for the metrics
-        public int CommandsCount = 0;
-        public int MaxRecursion = 0;
-        public int RepeatsCount = 0;
-
-        public Repeat(int Times, List<Command> commands) 
+        public Repeat(int times, List<Command> commands)
         {
-            for (int i = 0; i < Times; i++) this.commands.AddRange(commands); // adds list of commands to its own list 'Times' times
-
+            Commands.AddRange(commands);
             CommandsCount = commands.Count;
+            RepeatsCount = times;
             CountMetrics();
         }
 
-        public override void Execute(Character Character) 
+        public override void Execute(Character character)
         {
-            foreach (var command in commands)
-            {
-                command.Execute(Character);
-            }
-        }
+            Console.WriteLine(Display());
 
-        public override string Display() { return ""; } 
-
-        private void CountMetrics() // should have it's own class based on domain model and class diagram
-        {
-            foreach (var command in commands)
+            for (int i = 0; i < RepeatsCount; i++)
             {
-                if (command is Repeat repeat)
+                foreach (var command in Commands)
                 {
-                    CommandsCount += repeat.CommandsCount + 1;
-                    RepeatsCount += repeat.RepeatsCount + 1;
-
-                    if (repeat.MaxRecursion > MaxRecursion)
-                    {
-                        MaxRecursion = repeat.MaxRecursion;
-                    }
-
+                    command.Execute(character);
                 }
             }
 
-            MaxRecursion++;
+        }
+
+        public override string Display()
+        {
+            return $"Repeat {RepeatsCount}";
+        }
+
+        private void CountMetrics()
+        {
+            MaxRecursion = 1;
+            foreach (var command in Commands)
+            {
+                if (command is Repeat repeat)
+                {
+                    CommandsCount += repeat.CommandsCount;
+                    RepeatsCount += repeat.RepeatsCount;
+                    MaxRecursion = Math.Max(MaxRecursion, repeat.MaxRecursion + 1);
+                }
+            }
         }
     }
 }
