@@ -13,9 +13,10 @@ namespace Programming_Learning_Windows_App
             foreach (Command command in commands)
             {
                 command.Execute(Character);
+
             }
 
-            return "\n" + "End state " + Character.Position.ToString() + " facing " + Character.Facing;
+            return "\n" + "End state " + Character.Position.ToString() + " facing " + Character.Facing + "\n" + "  -  Path: " + Character.GetPathString();
         }
 
         public string CalculateMetrics()
