@@ -4,14 +4,19 @@ namespace Programming_Learning_Windows_App
 {
     public partial class Form1 : Form
     {
-        CommandsProgram program = new();
-        Interpreter interpreter = new();
+        private CommandsProgram program;
         private Character character;
+        private Grid grid;
+        private Interpreter interpreter;
+
         public Form1()
         {
             InitializeComponent();
             InitializeGrid(10, 10); // Example: 5x5 grid
-            character = new Character();
+            grid = new Grid(10, 10);
+            character = new Character(grid);
+            program = new(character);
+            interpreter = new Interpreter(character, grid);
         }
 
         private void InitializeGrid(int rows, int columns)
@@ -106,6 +111,7 @@ namespace Programming_Learning_Windows_App
                 }
             }
         }
+
         private void LoadFile(string path) // helper function
         {
             string fileContents = File.ReadAllText(path);
@@ -135,6 +141,7 @@ namespace Programming_Learning_Windows_App
             TextBoxCommands.Text = program.Execute();
             HighlightPath(character.Path);
         }
+
         private void ClearButton_Click(object sender, EventArgs e)
         {
             TextInput.Clear();

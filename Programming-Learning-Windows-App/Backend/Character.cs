@@ -4,23 +4,28 @@ namespace Programming_Learning_Windows_App
     {
         public Facing Facing { get; set; }
         public (int X, int Y) Position { get; set; }
-        public List<(int X, int Y)> Path { get; private set; } // List to store the path coordinates
+        public List<(int X, int Y)> Path { get; private set; }
+        private Grid grid;
 
-
-        public Character()
+        public Character(Grid grid)
         {
+            this.grid = grid;
             Facing = Facing.East;
             Position = (0, 0);
-            Path = new List<(int X, int Y)> { Position }; // Initialize with starting position
+            Path = new List<(int X, int Y)>();
+            Path.Add((0, 0));
+
         }
 
         public void Move(int steps)
         {
             var (x, y) = Position;
 
+
             for (int i = 0; i < steps; i++)
             {
-                // Update position based on facing direction
+                if (IsAtGridEdge() || IsWallAhead()) break;
+
                 switch (Facing)
                 {
                     case Facing.North:
@@ -38,23 +43,21 @@ namespace Programming_Learning_Windows_App
                 }
 
                 Position = (x, y);
-                Path.Add(Position); // Add each new position to the path
+                Path.Add(Position);
             }
+
+
         }
 
+            
         public string GetPathString()
         {
             return string.Join(" -> ", Path.Select(p => $"({p.X}, {p.Y})"));
         }
-        /*
-            value of Facing turned into a number after incrementing (decrementing) 
-            if value was the last (first) enum value 
-            vv
-        */
 
         public void Turn(Direction direction)
         {
-            if (direction == Direction.Left) 
+            if (direction == Direction.Left)
             {
                 if (Facing == Facing.North)
                 {
@@ -74,6 +77,38 @@ namespace Programming_Learning_Windows_App
                 Facing++;
             }
         }
+
+        public bool IsAtGridEdge()
+        {
+            switch (Facing)
+            {
+                case Facing.North:
+                    return Position.Y <= 0;
+                case Facing.South:
+                    return Position.Y >= grid.Height - 1;
+                case Facing.East:
+                    return Position.X >= grid.Width - 1;
+                case Facing.West:
+                    return Position.X <= 0;
+                default:
+                    return false;
+            }
+        }
+
+        public bool IsWallAhead()
+        {
+            (int X, int Y) ahead = Facing switch
+            {
+                Facing.North => (Position.X, Position.Y - 1),
+                Facing.South => (Position.X, Position.Y + 1),
+                Facing.East => (Position.X + 1, Position.Y),
+                Facing.West => (Position.X - 1, Position.Y),
+                _ => Position
+            };
+
+            return grid.IsWall(ahead);
+        }
     }
+
 
 }

@@ -4,9 +4,13 @@ namespace Programming_Learning_Windows_App
 {
     public class CommandsProgram
     {
+        private Character Character;
+        List<Command> commands = new();
 
-        Character Character = new Character();
-        List<Command> commands = new List<Command>();
+        public CommandsProgram(Character character)
+        {
+            Character = character;
+        }
 
         public string Execute()
         {

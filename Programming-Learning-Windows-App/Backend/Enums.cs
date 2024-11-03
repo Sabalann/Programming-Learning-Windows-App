@@ -2,4 +2,5 @@
 {
     public enum Direction { Left, Right }
     public enum Facing { North, East, South, West }
+    public enum RepeatUntilType { WallAhead, GridEdge }
 }

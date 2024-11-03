@@ -7,9 +7,13 @@ public class Interpreter
     private string programText;
     public string FormattedCommands;
     public List<Command> Commands { get; private set; } = new List<Command>();
+    private Character character;
+    private Grid grid;
 
-    public Interpreter()
+    public Interpreter(Character character, Grid grid)
     {
+        this.character = character;
+        this.grid = grid;
     }
 
     public void Interpret(string programText)
@@ -25,7 +29,7 @@ public class Interpreter
         {
             string line = content[i];
 
-            if (string.IsNullOrWhiteSpace(line)) continue; // skip empty lines incase there are any
+            if (string.IsNullOrWhiteSpace(line)) continue; // skip empty lines in case there are any
 
             int indentLevel = line.TakeWhile(c => c == '\t').Count(); // count indent level
             string trimmedLine = line.Trim();
@@ -49,8 +53,6 @@ public class Interpreter
 
         FormattedCommands = FormatCommands(Commands, 0); // update FormattedCommands to display the current state of the program correctly
     }
-
-
 
     private Command parseCommand(string line)
     {
@@ -78,21 +80,32 @@ public class Interpreter
                 if (parts.Length >= 2 && int.TryParse(parts[1], out int times))
                     return new Repeat(times, new List<Command>());
                 break;
+
+            case "RepeatUntil":
+                if (parts.Length >= 2)
+                {
+                    if (parts[1].Equals("WallAhead", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return new RepeatUntil(RepeatUntilType.WallAhead, new List<Command>());
+                    }
+                    else if (parts[1].Equals("GridEdge", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return new RepeatUntil(RepeatUntilType.GridEdge, new List<Command>());
+                    }
+                }
+                break;
         }
 
         return null;
     }
-
 
     public string FormatCommands(List<Command> _commands, int indentLevel)
     {
         var sb = new StringBuilder();
         foreach (var command in _commands)
         {
-            
             sb.Append(new string('\t', indentLevel)); // add indentation
 
-            
             if (command is Repeat repeat) // add repeat text
             {
                 sb.AppendLine($"Repeat {repeat.RepeatsCount}");
