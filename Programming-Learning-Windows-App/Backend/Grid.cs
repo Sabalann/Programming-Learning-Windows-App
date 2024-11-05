@@ -27,7 +27,7 @@ namespace Programming_Learning_Windows_App
 
         public bool IsEdge((int, int) position)
         {
-            return position.Item1 <= 0 || position.Item1 >= Width - 1 || position.Item2 <= 0 || position.Item2 >= Height - 1;
+            return position.Item1 < 0 || position.Item1 >= Width - 1 || position.Item2 < 0 || position.Item2 >= Height - 1;
         }
     }
 

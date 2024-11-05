@@ -20,7 +20,6 @@ namespace Programming_Learning_Windows_App
 
         public override void Execute(Character character)
         {
-            Console.WriteLine(Display());
             bool shouldContinue = true;
             RepeatsCount = 0;
 
