@@ -24,7 +24,7 @@ namespace Programming_Learning_Windows_App
             Position = (0, 0);
             Path = new List<(int X, int Y)>();
             Path.Add((0, 0));
-            
+            UpdateCharacterImage();
 
         }
 
@@ -60,10 +60,7 @@ namespace Programming_Learning_Windows_App
 
                 }
                 else break;
-
             }
-
-
         }
 
         private bool isValidPosition((int, int) futurePos)
@@ -136,13 +133,11 @@ namespace Programming_Learning_Windows_App
 
         private void UpdateCharacterImage()
         {
-            // Hide all images
             imgNorth.Visible = false;
             imgEast.Visible = false;
             imgSouth.Visible = false;
             imgWest.Visible = false;
 
-            // Show the image corresponding to the current facing direction
             switch (Facing)
             {
                 case Facing.North:
@@ -159,11 +154,10 @@ namespace Programming_Learning_Windows_App
                     break;
             }
 
-            // Update the position of the visible PictureBox to match the character's position
             PictureBox currentImage = GetCurrentImage();
             if (currentImage != null)
             {
-                currentImage.Location = new Point((Position.X * currentImage.Width) + 100, Position.Y * currentImage.Height);
+                currentImage.Location = new Point((Position.X * currentImage.Width) + 500, (Position.Y * currentImage.Height) + 38);
             }
         }
 
@@ -182,6 +176,14 @@ namespace Programming_Learning_Windows_App
                 default:
                     return null;
             }
+        }
+
+        public void Reset()
+        {
+            Position = (0, 0);
+            Facing = Facing.East;
+            UpdateCharacterImage();
+            Path.Clear();   
         }
     }
 }

@@ -49,10 +49,9 @@
             RunButton.BackColor = Color.CadetBlue;
             RunButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             RunButton.ForeColor = Color.White;
-            RunButton.Location = new Point(251, 575);
-            RunButton.Margin = new Padding(4, 5, 4, 5);
+            RunButton.Location = new Point(176, 345);
             RunButton.Name = "RunButton";
-            RunButton.Size = new Size(117, 55);
+            RunButton.Size = new Size(82, 33);
             RunButton.TabIndex = 5;
             RunButton.Text = "Run";
             RunButton.UseVisualStyleBackColor = false;
@@ -63,10 +62,9 @@
             MetricsButton.BackColor = Color.CadetBlue;
             MetricsButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             MetricsButton.ForeColor = Color.White;
-            MetricsButton.Location = new Point(397, 575);
-            MetricsButton.Margin = new Padding(4, 5, 4, 5);
+            MetricsButton.Location = new Point(278, 345);
             MetricsButton.Name = "MetricsButton";
-            MetricsButton.Size = new Size(117, 55);
+            MetricsButton.Size = new Size(82, 33);
             MetricsButton.TabIndex = 6;
             MetricsButton.Text = "Metrics";
             MetricsButton.UseVisualStyleBackColor = false;
@@ -74,12 +72,11 @@
             // 
             // TextBoxCommands
             // 
-            TextBoxCommands.Location = new Point(251, 710);
-            TextBoxCommands.Margin = new Padding(4, 5, 4, 5);
+            TextBoxCommands.Location = new Point(176, 426);
             TextBoxCommands.Multiline = true;
             TextBoxCommands.Name = "TextBoxCommands";
             TextBoxCommands.ReadOnly = true;
-            TextBoxCommands.Size = new Size(411, 204);
+            TextBoxCommands.Size = new Size(289, 124);
             TextBoxCommands.TabIndex = 7;
             TextBoxCommands.Text = "<output>";
             // 
@@ -92,15 +89,14 @@
             GridPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             GridPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             GridPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            GridPanel.Location = new Point(741, 125);
-            GridPanel.Margin = new Padding(4, 5, 4, 5);
+            GridPanel.Location = new Point(502, 38);
             GridPanel.Name = "GridPanel";
             GridPanel.RowCount = 4;
             GridPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             GridPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             GridPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             GridPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            GridPanel.Size = new Size(410, 440);
+            GridPanel.Size = new Size(530, 530);
             GridPanel.TabIndex = 9;
             // 
             // menuStrip1
@@ -110,8 +106,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { loadFileToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new Padding(9, 3, 0, 3);
-            menuStrip1.Size = new Size(1517, 35);
+            menuStrip1.Size = new Size(1062, 24);
             menuStrip1.TabIndex = 10;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -119,34 +114,34 @@
             // 
             loadFileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { basicToolStripMenuItem, advancedToolStripMenuItem, expertToolStripMenuItem, customToolStripMenuItem });
             loadFileToolStripMenuItem.Name = "loadFileToolStripMenuItem";
-            loadFileToolStripMenuItem.Size = new Size(98, 29);
+            loadFileToolStripMenuItem.Size = new Size(66, 20);
             loadFileToolStripMenuItem.Text = "Load File";
             // 
             // basicToolStripMenuItem
             // 
             basicToolStripMenuItem.Name = "basicToolStripMenuItem";
-            basicToolStripMenuItem.Size = new Size(193, 34);
+            basicToolStripMenuItem.Size = new Size(127, 22);
             basicToolStripMenuItem.Text = "Basic";
             basicToolStripMenuItem.Click += basicToolStripMenuItem_Click;
             // 
             // advancedToolStripMenuItem
             // 
             advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            advancedToolStripMenuItem.Size = new Size(193, 34);
+            advancedToolStripMenuItem.Size = new Size(127, 22);
             advancedToolStripMenuItem.Text = "Advanced";
             advancedToolStripMenuItem.Click += advancedToolStripMenuItem_Click;
             // 
             // expertToolStripMenuItem
             // 
             expertToolStripMenuItem.Name = "expertToolStripMenuItem";
-            expertToolStripMenuItem.Size = new Size(193, 34);
+            expertToolStripMenuItem.Size = new Size(127, 22);
             expertToolStripMenuItem.Text = "Expert";
             expertToolStripMenuItem.Click += expertToolStripMenuItem_Click;
             // 
             // customToolStripMenuItem
             // 
             customToolStripMenuItem.Name = "customToolStripMenuItem";
-            customToolStripMenuItem.Size = new Size(193, 34);
+            customToolStripMenuItem.Size = new Size(127, 22);
             customToolStripMenuItem.Text = "Custom";
             customToolStripMenuItem.Click += customToolStripMenuItem_Click;
             // 
@@ -155,10 +150,9 @@
             ClearButton.BackColor = Color.CadetBlue;
             ClearButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ClearButton.ForeColor = Color.White;
-            ClearButton.Location = new Point(547, 575);
-            ClearButton.Margin = new Padding(4, 5, 4, 5);
+            ClearButton.Location = new Point(383, 345);
             ClearButton.Name = "ClearButton";
-            ClearButton.Size = new Size(117, 55);
+            ClearButton.Size = new Size(82, 33);
             ClearButton.TabIndex = 12;
             ClearButton.Text = "Clear";
             ClearButton.UseVisualStyleBackColor = false;
@@ -169,19 +163,18 @@
             TextInput.AcceptsReturn = true;
             TextInput.AcceptsTab = true;
             TextInput.BorderStyle = BorderStyle.None;
-            TextInput.Location = new Point(251, 125);
-            TextInput.Margin = new Padding(4, 5, 4, 5);
+            TextInput.Location = new Point(176, 75);
             TextInput.Multiline = true;
             TextInput.Name = "TextInput";
-            TextInput.Size = new Size(413, 440);
+            TextInput.Size = new Size(289, 264);
             TextInput.TabIndex = 13;
             TextInput.WordWrap = false;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1517, 966);
+            ClientSize = new Size(1062, 580);
             Controls.Add(TextInput);
             Controls.Add(ClearButton);
             Controls.Add(GridPanel);
@@ -190,7 +183,6 @@
             Controls.Add(RunButton);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
-            Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
             Text = "Learn To Program";
             menuStrip1.ResumeLayout(false);
