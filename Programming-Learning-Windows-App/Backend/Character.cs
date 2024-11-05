@@ -1,5 +1,3 @@
-using System.Reflection.Metadata.Ecma335;
-
 namespace Programming_Learning_Windows_App
 {
     public class Character
@@ -9,13 +7,24 @@ namespace Programming_Learning_Windows_App
         public List<(int X, int Y)> Path { get; private set; }
         private Grid grid;
 
-        public Character(Grid grid)
+        private PictureBox imgNorth;
+        private PictureBox imgEast;
+        private PictureBox imgSouth;
+        private PictureBox imgWest;
+
+        public Character(Grid grid, PictureBox imgNorth, PictureBox imgEast, PictureBox imgSouth, PictureBox imgWest)
         {
             this.grid = grid;
+            this.imgNorth = imgNorth;
+            this.imgEast = imgEast;
+            this.imgSouth = imgSouth;
+            this.imgWest = imgWest;
+
             Facing = Facing.East;
             Position = (0, 0);
             Path = new List<(int X, int Y)>();
             Path.Add((0, 0));
+            
 
         }
 
@@ -47,6 +56,8 @@ namespace Programming_Learning_Windows_App
                 {
                     Position = (x, y);
                     Path.Add(Position);
+                    UpdateCharacterImage();
+
                 }
                 else break;
 
@@ -88,6 +99,8 @@ namespace Programming_Learning_Windows_App
                 }
                 Facing++;
             }
+            UpdateCharacterImage();
+
         }
 
         public bool IsAtGridEdge()
@@ -120,7 +133,55 @@ namespace Programming_Learning_Windows_App
 
             return grid.IsWall(ahead);
         }
+
+        private void UpdateCharacterImage()
+        {
+            // Hide all images
+            imgNorth.Visible = false;
+            imgEast.Visible = false;
+            imgSouth.Visible = false;
+            imgWest.Visible = false;
+
+            // Show the image corresponding to the current facing direction
+            switch (Facing)
+            {
+                case Facing.North:
+                    imgNorth.Visible = true;
+                    break;
+                case Facing.East:
+                    imgEast.Visible = true;
+                    break;
+                case Facing.South:
+                    imgSouth.Visible = true;
+                    break;
+                case Facing.West:
+                    imgWest.Visible = true;
+                    break;
+            }
+
+            // Update the position of the visible PictureBox to match the character's position
+            PictureBox currentImage = GetCurrentImage();
+            if (currentImage != null)
+            {
+                currentImage.Location = new Point((Position.X * currentImage.Width) + 100, Position.Y * currentImage.Height);
+            }
+        }
+
+        private PictureBox GetCurrentImage()
+        {
+            switch (Facing)
+            {
+                case Facing.North:
+                    return imgNorth;
+                case Facing.East:
+                    return imgEast;
+                case Facing.South:
+                    return imgSouth;
+                case Facing.West:
+                    return imgWest;
+                default:
+                    return null;
+            }
+        }
     }
-
-
 }

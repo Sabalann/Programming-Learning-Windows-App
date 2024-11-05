@@ -14,7 +14,20 @@ namespace Programming_Learning_Windows_App
             InitializeComponent();
             InitializeGrid(10, 10); // Example: 5x5 grid
             grid = new Grid(10, 10);
-            character = new Character(grid);
+
+            PictureBox imgNorth = new PictureBox { Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_north.png"), SizeMode = PictureBoxSizeMode.StretchImage, Visible = false };
+            PictureBox imgEast = new PictureBox { Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_east.png"), SizeMode = PictureBoxSizeMode.StretchImage, Visible = true };
+            PictureBox imgSouth = new PictureBox { Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_south.png"), SizeMode = PictureBoxSizeMode.StretchImage, Visible = false };
+            PictureBox imgWest = new PictureBox { Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_west.png"), SizeMode = PictureBoxSizeMode.StretchImage, Visible = false };
+
+
+            Controls.Add(imgNorth);
+            Controls.Add(imgEast);
+            Controls.Add(imgSouth);
+            Controls.Add(imgWest);
+
+
+            character = new Character(grid, imgNorth, imgEast, imgSouth, imgWest);
             program = new(character);
             interpreter = new Interpreter(character, grid);
         }
