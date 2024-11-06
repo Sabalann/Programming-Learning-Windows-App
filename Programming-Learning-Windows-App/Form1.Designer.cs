@@ -41,6 +41,7 @@
             customToolStripMenuItem = new ToolStripMenuItem();
             ClearButton = new Button();
             TextInput = new TextBox();
+            ErrorTextBox = new TextBox();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -170,11 +171,25 @@
             TextInput.TabIndex = 13;
             TextInput.WordWrap = false;
             // 
+            // ErrorTextBox
+            // 
+            ErrorTextBox.BackColor = SystemColors.Control;
+            ErrorTextBox.BorderStyle = BorderStyle.FixedSingle;
+            ErrorTextBox.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            ErrorTextBox.ForeColor = Color.Green;
+            ErrorTextBox.Location = new Point(176, 384);
+            ErrorTextBox.Name = "ErrorTextBox";
+            ErrorTextBox.ReadOnly = true;
+            ErrorTextBox.Size = new Size(289, 33);
+            ErrorTextBox.TabIndex = 14;
+            ErrorTextBox.TextAlign = HorizontalAlignment.Center;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1062, 580);
+            Controls.Add(ErrorTextBox);
             Controls.Add(TextInput);
             Controls.Add(ClearButton);
             Controls.Add(GridPanel);
@@ -205,5 +220,6 @@
         private ToolStripMenuItem customToolStripMenuItem;
         private Button ClearButton;
         private TextBox TextInput;
+        private TextBox ErrorTextBox;
     }
 }

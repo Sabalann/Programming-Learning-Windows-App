@@ -31,10 +31,8 @@ namespace Programming_Learning_Windows_App
             var (x, y) = Position;
             Path.Add((0, 0));
 
-
             for (int i = 0; i < steps; i++)
             {
-
                 switch (Facing)
                 {
                     case Facing.North:
@@ -51,18 +49,26 @@ namespace Programming_Learning_Windows_App
                         break;
                 }
 
-                Position = (x, y);
+                Form1.Instance.DisplayErrorMessage(CheckPosition((x,y)));
+                Position = (x,y);
                 Path.Add(Position);
                 UpdateCharacterImage();
-
             }
         }
 
-        private bool isValidPosition((int, int) futurePos)
+        private string CheckPosition((int, int) futurePos)
         {
-            if (grid.IsWall(futurePos) || grid.IsEdge(futurePos)) return false;
+            if (grid.IsEdge(futurePos))
+            {
+                return "Character left the grid";
+            }
 
-            return true;
+            if (grid.IsWall(futurePos))
+            {
+                return "Character hit a wall";
+            }
+
+            return "Success";
         }
 
         public string GetPathString()

@@ -9,9 +9,12 @@ namespace Programming_Learning_Windows_App
         private Grid grid;
         private Interpreter interpreter;
 
+        public static Form1 Instance { get; private set; }
+
         public Form1()
         {
             InitializeComponent();
+            Instance = this;
             InitializeGrid(10, 10);
             grid = new Grid(10, 10);
             ResetGrid();
@@ -199,6 +202,13 @@ namespace Programming_Learning_Windows_App
 
                 }
             }
+        }
+
+        public void DisplayErrorMessage(string message)
+        {
+            ErrorTextBox.Text = message;
+            if (message != "Success") ErrorTextBox.ForeColor = Color.Red;
+            else ErrorTextBox.ForeColor = Color.Green;
         }
     }
 }
