@@ -125,7 +125,6 @@ namespace Programming_Learning_Windows_App
                     {
                         cell.BackColor = Color.LightBlue;
                     }
-                    
                 }
             }
         }

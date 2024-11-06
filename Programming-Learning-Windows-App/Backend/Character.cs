@@ -22,7 +22,6 @@ namespace Programming_Learning_Windows_App
 
             Facing = Facing.East;
             Position = (0, 0);
-            Path.Add((0, 0));
             UpdateCharacterImage();
 
         }
@@ -30,6 +29,7 @@ namespace Programming_Learning_Windows_App
         public void Move(int steps)
         {
             var (x, y) = Position;
+            Path.Add((0, 0));
 
 
             for (int i = 0; i < steps; i++)
@@ -106,9 +106,9 @@ namespace Programming_Learning_Windows_App
                 case Facing.North:
                     return Position.Y <= 0;
                 case Facing.South:
-                    return Position.Y >= grid.Height - 1;
+                    return Position.Y >= grid.Height;
                 case Facing.East:
-                    return Position.X >= grid.Width - 1;
+                    return Position.X >= grid.Width;
                 case Facing.West:
                     return Position.X <= 0;
                 default:
