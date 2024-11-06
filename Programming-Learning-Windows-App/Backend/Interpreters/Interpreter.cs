@@ -48,6 +48,11 @@ public class Interpreter
                 {
                     commandStack.Push((repeat.Commands, indentLevel));
                 }
+
+                if (command is RepeatUntil repeatUntil)
+                {
+                    commandStack.Push((repeatUntil.Commands, indentLevel));
+                }
             }
         }
 

@@ -4,7 +4,7 @@ namespace Programming_Learning_Windows_App
 {
     public class RepeatUntil : Command
     {
-        public List<Command> Commands { get; } = new List<Command>();
+        public List<Command> Commands { get; } = new();
         public RepeatUntilType Type { get; }
         public int CommandsCount { get; private set; }
         public int MaxRecursion { get; private set; }
@@ -20,30 +20,32 @@ namespace Programming_Learning_Windows_App
 
         public override void Execute(Character character)
         {
-            bool shouldContinue = true;
             RepeatsCount = 0;
 
-            while (shouldContinue)
+            while (ShouldContinue(character))
+            { 
+                foreach (var command in Commands)
+                {
+                       command.Execute(character);
+                }
+
+                RepeatsCount++;
+                System.Diagnostics.Debug.WriteLine($"RepeatsCount: {RepeatsCount}, Position: {character.Position}, Facing: {character.Facing}, WallAhead: {character.IsWallAhead()}");
+
+
+            }
+        }
+
+        private bool ShouldContinue(Character character)
+        {
+            switch (Type)
             {
-                switch (Type)
-                {
-                    case RepeatUntilType.GridEdge:
-                        shouldContinue = !character.IsAtGridEdge();
-                        break;
-                    case RepeatUntilType.WallAhead:
-                        shouldContinue = !character.IsWallAhead();
-                        break;
-                }
-
-                if (shouldContinue)
-                {
-                    foreach (var command in Commands)
-                    {
-                        command.Execute(character);
-                    }
-
-                    RepeatsCount++;
-                }
+                case RepeatUntilType.GridEdge:
+                    return !character.IsAtGridEdge();
+                case RepeatUntilType.WallAhead:
+                    return !character.IsWallAhead();
+                default:
+                    return false;
             }
         }
 

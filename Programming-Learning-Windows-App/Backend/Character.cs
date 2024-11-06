@@ -51,14 +51,10 @@ namespace Programming_Learning_Windows_App
                         break;
                 }
 
-                if (isValidPosition((x, y)))
-                {
-                    Position = (x, y);
-                    Path.Add(Position);
-                    UpdateCharacterImage();
+                Position = (x, y);
+                Path.Add(Position);
+                UpdateCharacterImage();
 
-                }
-                else break;
             }
         }
 
@@ -101,7 +97,16 @@ namespace Programming_Learning_Windows_App
 
         public bool IsAtGridEdge()
         {
-            return grid.IsEdge(Position);
+            (int X, int Y) ahead = Facing switch
+            {
+                Facing.North => (Position.X, Position.Y - 1),
+                Facing.South => (Position.X, Position.Y + 1),
+                Facing.East => (Position.X + 1, Position.Y),
+                Facing.West => (Position.X - 1, Position.Y),
+                _ => Position
+            };
+
+            return grid.IsEdge(ahead);
         }
 
         public bool IsWallAhead()

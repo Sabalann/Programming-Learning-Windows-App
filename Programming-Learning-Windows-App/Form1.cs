@@ -26,25 +26,21 @@ namespace Programming_Learning_Windows_App
             PictureBox imgNorth = new PictureBox
             {
                 Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_north.png"),
-                SizeMode = PictureBoxSizeMode.StretchImage,
                 Size = cellSize,
             };
             PictureBox imgEast = new PictureBox
             {
                 Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_east.png"),
-                SizeMode = PictureBoxSizeMode.StretchImage,
                 Size = cellSize,
             };
             PictureBox imgSouth = new PictureBox
             {
                 Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_south.png"),
-                SizeMode = PictureBoxSizeMode.StretchImage,
                 Size = cellSize,
             };
             PictureBox imgWest = new PictureBox
             {
                 Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_west.png"),
-                SizeMode = PictureBoxSizeMode.StretchImage,
                 Size = cellSize,
             };
 
