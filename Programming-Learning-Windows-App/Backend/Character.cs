@@ -101,19 +101,7 @@ namespace Programming_Learning_Windows_App
 
         public bool IsAtGridEdge()
         {
-            switch (Facing)
-            {
-                case Facing.North:
-                    return Position.Y <= 0;
-                case Facing.South:
-                    return Position.Y >= grid.Height;
-                case Facing.East:
-                    return Position.X >= grid.Width;
-                case Facing.West:
-                    return Position.X <= 0;
-                default:
-                    return false;
-            }
+            return grid.IsEdge(Position);
         }
 
         public bool IsWallAhead()

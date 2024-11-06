@@ -27,32 +27,25 @@ namespace Programming_Learning_Windows_App
             {
                 Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_north.png"),
                 SizeMode = PictureBoxSizeMode.StretchImage,
-                Visible = false,
                 Size = cellSize,
             };
             PictureBox imgEast = new PictureBox
             {
                 Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_east.png"),
                 SizeMode = PictureBoxSizeMode.StretchImage,
-                Visible = true,
                 Size = cellSize,
-
             };
             PictureBox imgSouth = new PictureBox
             {
                 Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_south.png"),
                 SizeMode = PictureBoxSizeMode.StretchImage,
-                Visible = false,
                 Size = cellSize,
-
             };
             PictureBox imgWest = new PictureBox
             {
                 Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_west.png"),
                 SizeMode = PictureBoxSizeMode.StretchImage,
-                Visible = false,
                 Size = cellSize,
-
             };
 
             // Add PictureBox controls to the form
@@ -83,14 +76,8 @@ namespace Programming_Learning_Windows_App
             GridPanel.ColumnCount = columns;
 
             // Set row and column styles to equally divide the space
-            for (int i = 0; i < rows; i++)
-            {
-                GridPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / rows));
-            }
-            for (int i = 0; i < columns; i++)
-            {
-                GridPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / columns));
-            }
+            for (int i = 0; i < rows; i++) GridPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / rows));
+            for (int i = 0; i < columns; i++) GridPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / columns));
 
             // Populate the grid with labels for each cell without numbers
             for (int row = 0; row < rows; row++)
@@ -99,16 +86,12 @@ namespace Programming_Learning_Windows_App
                 {
                     Label cellLabel = new Label
                     {
-                        BackColor = Color.White, // Default color for unvisited cells
                         Dock = DockStyle.Fill,
                         Margin = new Padding(1),
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        Text = "" // Set to an empty string to remove the number
                     };
                     GridPanel.Controls.Add(cellLabel, col, row);
                 }
             }
-
         }
 
         private void HighlightPath(List<(int X, int Y)> path)
@@ -161,7 +144,7 @@ namespace Programming_Learning_Windows_App
             }
         }
 
-        private void LoadFile(string path) // helper function
+        private void LoadFile(string path)
         {
             string fileContents = File.ReadAllText(path);
             interpreter.Interpret(fileContents);
@@ -184,7 +167,6 @@ namespace Programming_Learning_Windows_App
 
         private void RunButton_Click(object sender, EventArgs e)
         {
-
             TextBoxCommands.Clear();
             ResetProgram();
             interpreter.Interpret(TextInput.Text);
