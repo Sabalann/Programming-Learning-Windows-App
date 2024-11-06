@@ -5,29 +5,28 @@ namespace Programming_Learning_Windows_App
     {
         public int Width;
         public int Height;
-        private List<(int X, int Y)> walls;
+        public List<(int X, int Y)> Walls { get; } = new();
 
         public Grid(int width, int height)
         {
             Width = width;
             Height = height;
-            walls = new List<(int X, int Y)>();
             AddWall((5, 0));
         }
 
         public void AddWall((int, int) position)
         {
-            walls.Add(position);
+            Walls.Add(position);
         }
 
         public bool IsWall((int, int) position)
         {
-            return walls.Contains(position);
+            return Walls.Contains(position);
         }
 
         public bool IsEdge((int, int) position)
         {
-            return position.Item1 < 0 || position.Item1 >= Width - 1 || position.Item2 < 0 || position.Item2 >= Height - 1;
+            return position.Item1 < 0 || position.Item1 >= Width || position.Item2 < 0 || position.Item2 >= Height;
         }
     }
 

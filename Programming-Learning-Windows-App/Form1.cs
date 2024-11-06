@@ -1,4 +1,4 @@
-using System.Windows.Forms;
+using System.IO;
 
 namespace Programming_Learning_Windows_App
 {
@@ -12,10 +12,62 @@ namespace Programming_Learning_Windows_App
         public Form1()
         {
             InitializeComponent();
-            InitializeGrid(10, 10); // Example: 5x5 grid
+            InitializeGrid(10, 10);
             grid = new Grid(10, 10);
-            character = new Character(grid);
-            program = new(character);
+            ResetGrid();
+
+            // Calculate the size of each grid cell
+            int cellWidth = GridPanel.Width / GridPanel.ColumnCount;
+            int cellHeight = GridPanel.Height / GridPanel.RowCount;
+            Size cellSize = new Size(cellWidth, cellHeight);
+
+
+            // Initialize PictureBox controls for each direction
+            PictureBox imgNorth = new PictureBox
+            {
+                Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_north.png"),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Visible = false,
+                Size = cellSize,
+            };
+            PictureBox imgEast = new PictureBox
+            {
+                Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_east.png"),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Visible = true,
+                Size = cellSize,
+
+            };
+            PictureBox imgSouth = new PictureBox
+            {
+                Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_south.png"),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Visible = false,
+                Size = cellSize,
+
+            };
+            PictureBox imgWest = new PictureBox
+            {
+                Image = Image.FromFile(@"..\..\..\Backend\characterIMGS\character_west.png"),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Visible = false,
+                Size = cellSize,
+
+            };
+
+            // Add PictureBox controls to the form
+            Controls.Add(imgNorth);
+            Controls.Add(imgEast);
+            Controls.Add(imgSouth);
+            Controls.Add(imgWest);
+
+            imgNorth.BringToFront();
+            imgEast.BringToFront();
+            imgSouth.BringToFront();
+            imgWest.BringToFront();
+
+            character = new Character(grid, imgNorth, imgEast, imgSouth, imgWest);
+            program = new CommandsProgram(character);
             interpreter = new Interpreter(character, grid);
         }
 
@@ -56,15 +108,12 @@ namespace Programming_Learning_Windows_App
                     GridPanel.Controls.Add(cellLabel, col, row);
                 }
             }
+
         }
 
         private void HighlightPath(List<(int X, int Y)> path)
         {
-            // Reset grid colors before each move
-            foreach (Control control in GridPanel.Controls)
-            {
-                control.BackColor = Color.White;
-            }
+            ResetGrid();
 
             // Highlight each cell in the path
             foreach (var (x, y) in path)
@@ -116,10 +165,10 @@ namespace Programming_Learning_Windows_App
         {
             string fileContents = File.ReadAllText(path);
             interpreter.Interpret(fileContents);
-            updateTextBoxCommands();
+            UpdateTextBoxCommands();
         }
 
-        private void updateTextBoxCommands()
+        private void UpdateTextBoxCommands()
         {
             TextInput.Text = interpreter.FormattedCommands;
             TextBoxCommands.Clear();
@@ -135,7 +184,9 @@ namespace Programming_Learning_Windows_App
 
         private void RunButton_Click(object sender, EventArgs e)
         {
+
             TextBoxCommands.Clear();
+            ResetProgram();
             interpreter.Interpret(TextInput.Text);
             program.SetMode(interpreter.Commands);
             TextBoxCommands.Text = program.Execute();
@@ -145,7 +196,31 @@ namespace Programming_Learning_Windows_App
         private void ClearButton_Click(object sender, EventArgs e)
         {
             TextInput.Clear();
+            ResetProgram();
+        }
+
+        private void ResetProgram()
+        {
             TextBoxCommands.Clear();
+            character.Reset();
+            ResetGrid();
+        }
+
+        private void ResetGrid()
+        {
+            foreach (Control control in GridPanel.Controls) control.BackColor = Color.White;
+            foreach (var (x, y) in grid.Walls)
+            {
+                if (x >= 0 && x < GridPanel.ColumnCount && y >= 0 && y < GridPanel.RowCount)
+                {
+                    Control cell = GridPanel.GetControlFromPosition(x, y);
+                    if (cell != null)
+                    {
+                        cell.BackColor = Color.RebeccaPurple;
+                    }
+
+                }
+            }
         }
     }
 }
