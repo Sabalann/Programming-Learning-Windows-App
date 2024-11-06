@@ -4,7 +4,7 @@ namespace Programming_Learning_Windows_App
     {
         public Facing Facing { get; set; }
         public (int X, int Y) Position { get; set; }
-        public List<(int X, int Y)> Path { get; private set; }
+        public List<(int X, int Y)> Path { get; } = new();
         private Grid grid;
 
         private PictureBox imgNorth;
@@ -22,7 +22,6 @@ namespace Programming_Learning_Windows_App
 
             Facing = Facing.East;
             Position = (0, 0);
-            Path = new List<(int X, int Y)>();
             Path.Add((0, 0));
             UpdateCharacterImage();
 

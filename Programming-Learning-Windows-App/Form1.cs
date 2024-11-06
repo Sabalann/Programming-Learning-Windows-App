@@ -1,3 +1,5 @@
+using System.IO;
+
 namespace Programming_Learning_Windows_App
 {
     public partial class Form1 : Form
@@ -12,6 +14,7 @@ namespace Programming_Learning_Windows_App
             InitializeComponent();
             InitializeGrid(10, 10);
             grid = new Grid(10, 10);
+            ResetGrid();
 
             // Calculate the size of each grid cell
             int cellWidth = GridPanel.Width / GridPanel.ColumnCount;
@@ -105,14 +108,12 @@ namespace Programming_Learning_Windows_App
                     GridPanel.Controls.Add(cellLabel, col, row);
                 }
             }
+
         }
 
         private void HighlightPath(List<(int X, int Y)> path)
         {
-            foreach (Control control in GridPanel.Controls)
-            {
-                control.BackColor = Color.White;
-            }
+            ResetGrid();
 
             // Highlight each cell in the path
             foreach (var (x, y) in path)
@@ -124,6 +125,7 @@ namespace Programming_Learning_Windows_App
                     {
                         cell.BackColor = Color.LightBlue;
                     }
+                    
                 }
             }
         }
@@ -164,10 +166,10 @@ namespace Programming_Learning_Windows_App
         {
             string fileContents = File.ReadAllText(path);
             interpreter.Interpret(fileContents);
-            updateTextBoxCommands();
+            UpdateTextBoxCommands();
         }
 
-        private void updateTextBoxCommands()
+        private void UpdateTextBoxCommands()
         {
             TextInput.Text = interpreter.FormattedCommands;
             TextBoxCommands.Clear();
@@ -202,9 +204,23 @@ namespace Programming_Learning_Windows_App
         {
             TextBoxCommands.Clear();
             character.Reset();
-            foreach (Control control in GridPanel.Controls)
+            ResetGrid();
+        }
+
+        private void ResetGrid()
+        {
+            foreach (Control control in GridPanel.Controls) control.BackColor = Color.White;
+            foreach (var (x, y) in grid.Walls)
             {
-                control.BackColor = Color.White;
+                if (x >= 0 && x < GridPanel.ColumnCount && y >= 0 && y < GridPanel.RowCount)
+                {
+                    Control cell = GridPanel.GetControlFromPosition(x, y);
+                    if (cell != null)
+                    {
+                        cell.BackColor = Color.RebeccaPurple;
+                    }
+
+                }
             }
         }
     }
