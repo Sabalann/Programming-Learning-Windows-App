@@ -1,3 +1,5 @@
+using System.Reflection.Metadata.Ecma335;
+
 namespace Programming_Learning_Windows_App
 {
     public class Character
@@ -24,7 +26,6 @@ namespace Programming_Learning_Windows_App
 
             for (int i = 0; i < steps; i++)
             {
-                if (IsAtGridEdge() || IsWallAhead()) break;
 
                 switch (Facing)
                 {
@@ -42,14 +43,25 @@ namespace Programming_Learning_Windows_App
                         break;
                 }
 
-                Position = (x, y);
-                Path.Add(Position);
+                if (isValidPosition((x, y)))
+                {
+                    Position = (x, y);
+                    Path.Add(Position);
+                }
+                else break;
+
             }
 
 
         }
 
-            
+        private bool isValidPosition((int, int) futurePos)
+        {
+            if (grid.IsWall(futurePos) || grid.IsEdge(futurePos)) return false;
+
+            return true;
+        }
+
         public string GetPathString()
         {
             return string.Join(" -> ", Path.Select(p => $"({p.X}, {p.Y})"));
