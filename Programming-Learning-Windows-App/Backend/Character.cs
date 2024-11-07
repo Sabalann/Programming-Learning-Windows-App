@@ -155,7 +155,7 @@ namespace Programming_Learning_Windows_App
             PictureBox currentImage = GetCurrentImage();
             if (currentImage != null)
             {
-                currentImage.Location = new Point((Position.X * currentImage.Width) + 500, (Position.Y * currentImage.Height) + 38);
+                currentImage.Location = new Point((Position.X * currentImage.Width) + 718, (Position.Y * currentImage.Height) + 62);
             }
         }
 
