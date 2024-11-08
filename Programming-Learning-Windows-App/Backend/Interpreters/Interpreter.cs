@@ -136,9 +136,6 @@ public class Interpreter
         int numRows = lines.Length;
         int numColumns = lines[0].Trim().Length;  // Check first line length for columns
 
-        // Resize the grid based on file dimensions
-        grid.Width = numColumns;
-        grid.Height = numRows;
 
         // Process each line to populate walls and other elements
         for (int y = 0; y < numRows; y++)

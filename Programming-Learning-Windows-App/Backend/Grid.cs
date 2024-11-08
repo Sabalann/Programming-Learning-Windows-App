@@ -12,7 +12,6 @@ namespace Programming_Learning_Windows_App
         {
             Width = width;
             Height = height;
-            AddWall((5, 0));
         }
 
         public void AddWall((int, int) position)
@@ -32,6 +31,13 @@ namespace Programming_Learning_Windows_App
         public void SetEndPosition(int x, int y)
         {
             EndPosition = (x, y);
+        }
+
+        public void Resize(int width, int height)
+        {
+            Width = width;
+            Height = height;
+            Walls.Clear();
         }
     }
 

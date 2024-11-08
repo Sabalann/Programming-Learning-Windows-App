@@ -67,6 +67,7 @@ namespace Programming_Learning_Windows_App
         {
 
             if (isGridInitialized) return;
+
             // Clear existing controls and styles
             GridPanel.Controls.Clear();
             GridPanel.RowStyles.Clear();
