@@ -1,20 +1,11 @@
-﻿using Programming_Learning_App;
+﻿using System.Text;
+using Programming_Learning_App;
 using Programming_Learning_Windows_App;
-using System.Text;
 
 public class Interpreter
 {
-    private string programText;
-    public string FormattedCommands;
-    public List<Command> Commands { get; private set; } = new List<Command>();
-    private Character character;
-    private Grid grid;
-
-    public Interpreter(Character character, Grid grid)
-    {
-        this.character = character;
-        this.grid = grid;
-    }
+    public string FormattedCommands { get; private set; }
+    public List<Command> Commands { get; } = new();
 
     public void Interpret(string programText)
     {
@@ -25,64 +16,60 @@ public class Interpreter
         var commandStack = new Stack<(List<Command> Commands, int IndentLevel)>(); // easier hierarchy managing
         commandStack.Push((Commands, -1));
 
-        for (int i = 0; i < content.Length; i++) // goes through each line
+        for (var i = 0; i < content.Length; i++) // goes through each line
         {
-            string line = content[i];
+            var line = content[i];
 
             if (string.IsNullOrWhiteSpace(line)) continue; // skip empty lines in case there are any
 
-            int indentLevel = line.TakeWhile(c => c == '\t').Count(); // count indent level
-            string trimmedLine = line.Trim();
+            var indentLevel = line.TakeWhile(c => c == '\t').Count(); // count indent level
+            var trimmedLine = line.Trim();
 
-            while (commandStack.Count > 1 && commandStack.Peek().IndentLevel >= indentLevel) // adjust based on indent level
-            {
+            while (commandStack.Count > 1 &&
+                   commandStack.Peek().IndentLevel >= indentLevel) // adjust based on indent level
                 commandStack.Pop();
-            }
 
-            Command command = parseCommand(trimmedLine);
+            var command = parseCommand(trimmedLine);
             if (command != null)
             {
                 commandStack.Peek().Commands.Add(command);
 
-                if (command is Repeat repeat)
-                {
-                    commandStack.Push((repeat.Commands, indentLevel));
-                }
+                if (command is Repeat repeat) commandStack.Push((repeat.Commands, indentLevel));
 
-                if (command is RepeatUntil repeatUntil)
-                {
-                    commandStack.Push((repeatUntil.Commands, indentLevel));
-                }
+                if (command is RepeatUntil repeatUntil) commandStack.Push((repeatUntil.Commands, indentLevel));
             }
         }
 
-        FormattedCommands = FormatCommands(Commands, 0); // update FormattedCommands to display the current state of the program correctly
+        FormattedCommands =
+            FormatCommands(Commands,
+                0); // update FormattedCommands to display the current state of the program correctly
     }
 
     private Command parseCommand(string line)
     {
-        string[] parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length == 0) return null;
 
         switch (parts[0])
         {
             case "Move":
-                if (parts.Length >= 2 && int.TryParse(parts[1], out int steps))
+                if (parts.Length >= 2 && int.TryParse(parts[1], out var steps))
                     return new Move(steps);
                 break;
 
             case "Turn":
                 if (parts.Length >= 2)
                 {
-                    Direction direction = parts[1].Equals("Left", StringComparison.OrdinalIgnoreCase)
+                    var direction = parts[1].Equals("Left", StringComparison.OrdinalIgnoreCase)
                         ? Direction.Left
                         : Direction.Right;
                     return new Turn(direction);
                 }
+
                 break;
 
             case "Repeat":
-                if (parts.Length >= 2 && int.TryParse(parts[1], out int times))
+                if (parts.Length >= 2 && int.TryParse(parts[1], out var times))
                     return new Repeat(times, new List<Command>());
                 break;
 
@@ -90,21 +77,18 @@ public class Interpreter
                 if (parts.Length >= 2)
                 {
                     if (parts[1].Equals("WallAhead", StringComparison.OrdinalIgnoreCase))
-                    {
                         return new RepeatUntil(RepeatUntilType.WallAhead, new List<Command>());
-                    }
-                    else if (parts[1].Equals("GridEdge", StringComparison.OrdinalIgnoreCase))
-                    {
+                    if (parts[1].Equals("GridEdge", StringComparison.OrdinalIgnoreCase))
                         return new RepeatUntil(RepeatUntilType.GridEdge, new List<Command>());
-                    }
                 }
+
                 break;
         }
 
         return null;
     }
 
-    public string FormatCommands(List<Command> _commands, int indentLevel)
+    private string FormatCommands(List<Command> _commands, int indentLevel)
     {
         var sb = new StringBuilder();
         foreach (var command in _commands)
@@ -121,6 +105,7 @@ public class Interpreter
                 sb.AppendLine(command.Display().Trim()); // other commands
             }
         }
+
         return sb.ToString();
     }
 }

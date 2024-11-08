@@ -1,22 +1,21 @@
-﻿namespace Programming_Learning_Windows_App
+﻿namespace Programming_Learning_Windows_App;
+
+public class Move : Command
 {
-    public class Move : Command
+    public Move(int Steps)
     {
-        public int Steps { get; set; }
-        public Move(int Steps) 
-        {
-            this.Steps = Steps;
-        }
+        this.Steps = Steps;
+    }
 
-        public override void Execute(Character Character)
-        {
-            Character.Move(Steps);
-            Console.Write(Display());
-        }
+    public int Steps { get; set; }
 
-        public override string Display()
-        {
-            return "Move " + Steps + " ";
-        }
+    public override void Execute(Character Character)
+    {
+        Character.Move(Steps);
+    }
+
+    public override string Display()
+    {
+        return "Move " + Steps + " ";
     }
 }

@@ -1,6 +1,21 @@
-﻿namespace Programming_Learning_Windows_App
+﻿namespace Programming_Learning_Windows_App;
+
+public enum Direction
 {
-    public enum Direction { Left, Right }
-    public enum Facing { North, East, South, West }
-    public enum RepeatUntilType { WallAhead, GridEdge }
+    Left,
+    Right
+}
+
+public enum Facing
+{
+    North,
+    East,
+    South,
+    West
+}
+
+public enum RepeatUntilType
+{
+    WallAhead,
+    GridEdge
 }

@@ -4,7 +4,7 @@ namespace Programming_Learning_Windows_App
 {
     public class CommandsProgram
     {
-        private Character Character;
+        Character Character;
         List<Command> commands = new();
 
         public CommandsProgram(Character character)
@@ -32,11 +32,13 @@ namespace Programming_Learning_Windows_App
 
         private int CountCommands()
         {
-            int commandsCount = commands.Count;
+            int commandsCount = 0;
 
             foreach (Command command in commands)
             {
                 if (command is Repeat repeat) commandsCount += repeat.CommandsCount;
+                else if (command is RepeatUntil repeatUntil) commandsCount += repeatUntil.CommandsCount;
+                else commandsCount++;
             }
 
             return commandsCount;
