@@ -39,6 +39,8 @@
             advancedToolStripMenuItem = new ToolStripMenuItem();
             expertToolStripMenuItem = new ToolStripMenuItem();
             customToolStripMenuItem = new ToolStripMenuItem();
+            exerciseToolStripMenuItem1 = new ToolStripMenuItem();
+            exerciseToolStripMenuItem = new ToolStripMenuItem();
             ClearButton = new Button();
             TextInput = new TextBox();
             ErrorTextBox = new TextBox();
@@ -113,7 +115,7 @@
             // 
             // loadFileToolStripMenuItem
             // 
-            loadFileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { basicToolStripMenuItem, advancedToolStripMenuItem, expertToolStripMenuItem, customToolStripMenuItem });
+            loadFileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { basicToolStripMenuItem, advancedToolStripMenuItem, expertToolStripMenuItem, customToolStripMenuItem, exerciseToolStripMenuItem1 });
             loadFileToolStripMenuItem.Name = "loadFileToolStripMenuItem";
             loadFileToolStripMenuItem.Size = new Size(66, 20);
             loadFileToolStripMenuItem.Text = "Load File";
@@ -121,30 +123,44 @@
             // basicToolStripMenuItem
             // 
             basicToolStripMenuItem.Name = "basicToolStripMenuItem";
-            basicToolStripMenuItem.Size = new Size(127, 22);
+            basicToolStripMenuItem.Size = new Size(180, 22);
             basicToolStripMenuItem.Text = "Basic";
             basicToolStripMenuItem.Click += basicToolStripMenuItem_Click;
             // 
             // advancedToolStripMenuItem
             // 
             advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            advancedToolStripMenuItem.Size = new Size(127, 22);
+            advancedToolStripMenuItem.Size = new Size(180, 22);
             advancedToolStripMenuItem.Text = "Advanced";
             advancedToolStripMenuItem.Click += advancedToolStripMenuItem_Click;
             // 
             // expertToolStripMenuItem
             // 
             expertToolStripMenuItem.Name = "expertToolStripMenuItem";
-            expertToolStripMenuItem.Size = new Size(127, 22);
+            expertToolStripMenuItem.Size = new Size(180, 22);
             expertToolStripMenuItem.Text = "Expert";
             expertToolStripMenuItem.Click += expertToolStripMenuItem_Click;
             // 
             // customToolStripMenuItem
             // 
             customToolStripMenuItem.Name = "customToolStripMenuItem";
-            customToolStripMenuItem.Size = new Size(127, 22);
+            customToolStripMenuItem.Size = new Size(180, 22);
             customToolStripMenuItem.Text = "Custom";
             customToolStripMenuItem.Click += customToolStripMenuItem_Click;
+            // 
+            // exerciseToolStripMenuItem1
+            // 
+            exerciseToolStripMenuItem1.Name = "exerciseToolStripMenuItem1";
+            exerciseToolStripMenuItem1.Size = new Size(180, 22);
+            exerciseToolStripMenuItem1.Text = "Exercise";
+            exerciseToolStripMenuItem1.Click += exerciseToolStripMenuItem1_Click;
+            // 
+            // exerciseToolStripMenuItem
+            // 
+            exerciseToolStripMenuItem.Name = "exerciseToolStripMenuItem";
+            exerciseToolStripMenuItem.Size = new Size(180, 22);
+            exerciseToolStripMenuItem.Text = "Exercise";
+            exerciseToolStripMenuItem.Click += exerciseToolStripMenuItem1_Click;
             // 
             // ClearButton
             // 
@@ -218,8 +234,10 @@
         private ToolStripMenuItem advancedToolStripMenuItem;
         private ToolStripMenuItem expertToolStripMenuItem;
         private ToolStripMenuItem customToolStripMenuItem;
+        private ToolStripMenuItem exerciseToolStripMenuItem;
         private Button ClearButton;
         private TextBox TextInput;
         private TextBox ErrorTextBox;
+        private ToolStripMenuItem exerciseToolStripMenuItem1;
     }
 }

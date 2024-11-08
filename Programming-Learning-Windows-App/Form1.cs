@@ -8,16 +8,16 @@ namespace Programming_Learning_Windows_App
         private Character character;
         private Grid grid;
         private Interpreter interpreter;
-
         public static Form1 Instance { get; private set; }
+        private bool isGridInitialized = false;
 
         public Form1()
         {
             InitializeComponent();
             Instance = this;
-            InitializeGrid(10, 10);
             grid = new Grid(10, 10);
             ResetGrid();
+            InitializeGrid(10, 10);
 
             // Calculate the size of each grid cell
             int cellWidth = GridPanel.Width / GridPanel.ColumnCount;
@@ -65,6 +65,8 @@ namespace Programming_Learning_Windows_App
 
         private void InitializeGrid(int rows, int columns)
         {
+
+            if (isGridInitialized) return;
             // Clear existing controls and styles
             GridPanel.Controls.Clear();
             GridPanel.RowStyles.Clear();
@@ -75,8 +77,14 @@ namespace Programming_Learning_Windows_App
             GridPanel.ColumnCount = columns;
 
             // Set row and column styles to equally divide the space
-            for (int i = 0; i < rows; i++) GridPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / rows));
-            for (int i = 0; i < columns; i++) GridPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / columns));
+            for (int i = 0; i < rows; i++)
+            {
+                GridPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / rows));
+            }
+            for (int i = 0; i < columns; i++)
+            {
+                GridPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / columns));
+            }
 
             // Populate the grid with labels for each cell without numbers
             for (int row = 0; row < rows; row++)
@@ -88,10 +96,47 @@ namespace Programming_Learning_Windows_App
                         Dock = DockStyle.Fill,
                         Margin = new Padding(1),
                     };
+
                     GridPanel.Controls.Add(cellLabel, col, row);
                 }
             }
+
+            isGridInitialized = true; // Mark as initialized
+
         }
+
+        private void UpdateGridDisplay()
+        {
+            // Reset the colors of all cells to default
+            foreach (Control control in GridPanel.Controls)
+            {
+                control.BackColor = Color.White;
+            }
+
+            // Set wall positions
+            foreach (var (x, y) in grid.Walls)
+            {
+                if (x >= 0 && x < GridPanel.ColumnCount && y >= 0 && y < GridPanel.RowCount)
+                {
+                    Control cell = GridPanel.GetControlFromPosition(x, y);
+                    if (cell != null)
+                    {
+                        cell.BackColor = Color.RebeccaPurple;
+                    }
+                }
+            }
+
+            if (grid.EndPosition.X >= 0 && grid.EndPosition.X < GridPanel.ColumnCount &&
+                grid.EndPosition.Y >= 0 && grid.EndPosition.Y < GridPanel.RowCount)
+            {
+                Control endCell = GridPanel.GetControlFromPosition(grid.EndPosition.X, grid.EndPosition.Y);
+                if (endCell != null)
+                {
+                    endCell.BackColor = Color.Pink;
+                }
+            }
+        }
+
 
         private void HighlightPath(List<(int X, int Y)> path)
         {
@@ -143,10 +188,34 @@ namespace Programming_Learning_Windows_App
             }
         }
 
+        private void exerciseToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "txt files|*.txt";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    LoadExercise(openFileDialog.FileName);
+                }
+            }
+        }
+
+
+
         private void LoadFile(string path)
         {
             string fileContents = File.ReadAllText(path);
             interpreter.Interpret(fileContents);
+            UpdateTextBoxCommands();
+        }
+
+        private void LoadExercise(string path)
+        {
+            string fileContents = File.ReadAllText(path);
+            interpreter.LoadGridFromFile(fileContents);
+            UpdateGridDisplay();
             UpdateTextBoxCommands();
         }
 
@@ -202,6 +271,16 @@ namespace Programming_Learning_Windows_App
 
                 }
             }
+
+            if (grid.EndPosition.X >= 0 && grid.EndPosition.X < GridPanel.ColumnCount &&
+                grid.EndPosition.Y >= 0 && grid.EndPosition.Y < GridPanel.RowCount)
+            {
+                Control endCell = GridPanel.GetControlFromPosition(grid.EndPosition.X, grid.EndPosition.Y);
+                if (endCell != null)
+                {
+                    endCell.BackColor = Color.Pink;
+                }
+            }
         }
 
         public void DisplayErrorMessage(string message)
@@ -210,5 +289,7 @@ namespace Programming_Learning_Windows_App
             if (message != "Success") ErrorTextBox.ForeColor = Color.Red;
             else ErrorTextBox.ForeColor = Color.Green;
         }
+
+        
     }
 }

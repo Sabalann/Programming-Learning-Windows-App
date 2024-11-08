@@ -123,4 +123,53 @@ public class Interpreter
         }
         return sb.ToString();
     }
+
+    public void LoadGridFromFile(string fileContents)
+    {
+        // Clear previous walls to avoid conflicts
+        grid.Walls.Clear();
+
+        // Split the file contents into lines, ignoring empty entries
+        string[] lines = fileContents.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Dynamically set the grid dimensions based on the file contents
+        int numRows = lines.Length;
+        int numColumns = lines[0].Trim().Length;  // Check first line length for columns
+
+        // Resize the grid based on file dimensions
+        grid.Width = numColumns;
+        grid.Height = numRows;
+
+        // Process each line to populate walls and other elements
+        for (int y = 0; y < numRows; y++)
+        {
+            string line = lines[y].Trim();
+
+            // Validate row length matches expected width
+            if (line.Length != numColumns)
+            {
+                throw new InvalidDataException($"Row {y} does not match the expected grid width of {numColumns}. Found {line.Length} columns.");
+            }
+
+            // Loop through each character in the line
+            for (int x = 0; x < numColumns; x++)
+            {
+                char cell = line[x];
+
+                switch (cell)
+                {
+                    case '+': // Wall character
+                        grid.Walls.Add((x, y)); // Add wall position
+                        break;
+                    case 'x': // End position character
+                        grid.SetEndPosition(x, y);
+                        break;
+                    case 'o': // Open space character, no action needed
+                        break;
+                    default:
+                        throw new InvalidDataException($"Invalid character '{cell}' at position ({x}, {y}).");
+                }
+            }
+        }
+    }
 }
