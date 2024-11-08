@@ -1,19 +1,23 @@
 namespace Programming_Learning_Windows_App;
 
-public partial class Form1 : Form
+namespace Programming_Learning_Windows_App
 {
-    private readonly Character character;
-    private readonly Grid grid;
-    private readonly Interpreter interpreter;
-    private readonly CommandsProgram program;
-
-    public Form1()
+    public partial class Form1 : Form
     {
-        InitializeComponent();
-        Instance = this;
-        InitializeGrid(10, 10);
-        grid = new Grid(10, 10);
-        ResetGrid();
+        private CommandsProgram program;
+        private Character character;
+        private Grid grid;
+        private Interpreter interpreter;
+        public static Form1 Instance { get; private set; }
+        private bool isGridInitialized = false;
+
+        public Form1()
+        {
+            InitializeComponent();
+            Instance = this;
+            grid = new Grid(10, 10);
+            ResetGrid();
+            InitializeGrid(10, 10);
 
         // Calculate the size of each grid cell
         var cellWidth = GridPanel.Width / GridPanel.ColumnCount;
@@ -59,39 +63,85 @@ public partial class Form1 : Form
         interpreter = new Interpreter();
     }
 
-    public static Form1 Instance { get; private set; }
+        private void InitializeGrid(int rows, int columns)
+        {
 
-    private void InitializeGrid(int rows, int columns)
-    {
-        // Clear existing controls and styles
-        GridPanel.Controls.Clear();
-        GridPanel.RowStyles.Clear();
-        GridPanel.ColumnStyles.Clear();
+            if (isGridInitialized) return;
+
+            // Clear existing controls and styles
+            GridPanel.Controls.Clear();
+            GridPanel.RowStyles.Clear();
+            GridPanel.ColumnStyles.Clear();
 
         // Set row and column count
         GridPanel.RowCount = rows;
         GridPanel.ColumnCount = columns;
 
-        // Set row and column styles to equally divide the space
-        for (var i = 0; i < rows; i++) GridPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / rows));
-        for (var i = 0; i < columns; i++) GridPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / columns));
-
-        // Populate the grid with labels for each cell without numbers
-        for (var row = 0; row < rows; row++)
-        for (var col = 0; col < columns; col++)
-        {
-            var cellLabel = new Label
+            // Set row and column styles to equally divide the space
+            for (int i = 0; i < rows; i++)
             {
-                Dock = DockStyle.Fill,
-                Margin = new Padding(1)
-            };
-            GridPanel.Controls.Add(cellLabel, col, row);
-        }
-    }
+                GridPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / rows));
+            }
+            for (int i = 0; i < columns; i++)
+            {
+                GridPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / columns));
+            }
 
-    private void HighlightPath(List<(int X, int Y)> path)
-    {
-        ResetGrid();
+            // Populate the grid with labels for each cell without numbers
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < columns; col++)
+                {
+                    Label cellLabel = new Label
+                    {
+                        Dock = DockStyle.Fill,
+                        Margin = new Padding(1),
+                    };
+
+                    GridPanel.Controls.Add(cellLabel, col, row);
+                }
+            }
+
+            isGridInitialized = true; // Mark as initialized
+
+        }
+
+        private void UpdateGridDisplay()
+        {
+            // Reset the colors of all cells to default
+            foreach (Control control in GridPanel.Controls)
+            {
+                control.BackColor = Color.White;
+            }
+
+            // Set wall positions
+            foreach (var (x, y) in grid.Walls)
+            {
+                if (x >= 0 && x < GridPanel.ColumnCount && y >= 0 && y < GridPanel.RowCount)
+                {
+                    Control cell = GridPanel.GetControlFromPosition(x, y);
+                    if (cell != null)
+                    {
+                        cell.BackColor = Color.RebeccaPurple;
+                    }
+                }
+            }
+
+            if (grid.EndPosition.X >= 0 && grid.EndPosition.X < GridPanel.ColumnCount &&
+                grid.EndPosition.Y >= 0 && grid.EndPosition.Y < GridPanel.RowCount)
+            {
+                Control endCell = GridPanel.GetControlFromPosition(grid.EndPosition.X, grid.EndPosition.Y);
+                if (endCell != null)
+                {
+                    endCell.BackColor = Color.Pink;
+                }
+            }
+        }
+
+
+        private void HighlightPath(List<(int X, int Y)> path)
+        {
+            ResetGrid();
 
         // Highlight each cell in the path
         foreach (var (x, y) in path)
@@ -131,18 +181,42 @@ public partial class Form1 : Form
         }
     }
 
-    private void LoadFile(string path)
-    {
-        var fileContents = File.ReadAllText(path);
-        interpreter.Interpret(fileContents);
-        UpdateTextBoxCommands();
-    }
+        private void exerciseToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "txt files|*.txt";
 
-    private void UpdateTextBoxCommands()
-    {
-        TextInput.Text = interpreter.FormattedCommands;
-        TextBoxCommands.Clear();
-    }
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    LoadExercise(openFileDialog.FileName);
+                }
+            }
+        }
+
+
+
+        private void LoadFile(string path)
+        {
+            string fileContents = File.ReadAllText(path);
+            interpreter.Interpret(fileContents);
+            UpdateTextBoxCommands();
+        }
+
+        private void LoadExercise(string path)
+        {
+            string fileContents = File.ReadAllText(path);
+            interpreter.LoadGridFromFile(fileContents);
+            UpdateGridDisplay();
+            UpdateTextBoxCommands();
+        }
+
+        private void UpdateTextBoxCommands()
+        {
+            TextInput.Text = interpreter.FormattedCommands;
+            TextBoxCommands.Clear();
+        }
 
     private void MetricsButton_Click(object sender, EventArgs e)
     {
@@ -175,21 +249,40 @@ public partial class Form1 : Form
         ResetGrid();
     }
 
-    private void ResetGrid()
-    {
-        foreach (Control control in GridPanel.Controls) control.BackColor = Color.White;
-        foreach (var (x, y) in grid.Walls)
-            if (x >= 0 && x < GridPanel.ColumnCount && y >= 0 && y < GridPanel.RowCount)
+        private void ResetGrid()
+        {
+            foreach (Control control in GridPanel.Controls) control.BackColor = Color.White;
+            foreach (var (x, y) in grid.Walls)
             {
-                var cell = GridPanel.GetControlFromPosition(x, y);
-                if (cell != null) cell.BackColor = Color.RebeccaPurple;
+                if (x >= 0 && x < GridPanel.ColumnCount && y >= 0 && y < GridPanel.RowCount)
+                {
+                    Control cell = GridPanel.GetControlFromPosition(x, y);
+                    if (cell != null)
+                    {
+                        cell.BackColor = Color.RebeccaPurple;
+                    }
+
+                }
+            }
+
+            if (grid.EndPosition.X >= 0 && grid.EndPosition.X < GridPanel.ColumnCount &&
+                grid.EndPosition.Y >= 0 && grid.EndPosition.Y < GridPanel.RowCount)
+            {
+                Control endCell = GridPanel.GetControlFromPosition(grid.EndPosition.X, grid.EndPosition.Y);
+                if (endCell != null)
+                {
+                    endCell.BackColor = Color.Pink;
+                }
             }
     }
 
-    public void DisplayErrorMessage(string message)
-    {
-        ErrorTextBox.Text = message;
-        if (message == "Success") ErrorTextBox.ForeColor = Color.Green;
-        else ErrorTextBox.ForeColor = Color.Red;
+        public void DisplayErrorMessage(string message)
+        {
+            ErrorTextBox.Text = message;
+            if (message != "Success") ErrorTextBox.ForeColor = Color.Red;
+            else ErrorTextBox.ForeColor = Color.Green;
+        }
+
+        
     }
 }

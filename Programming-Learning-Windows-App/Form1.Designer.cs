@@ -39,6 +39,8 @@
             advancedToolStripMenuItem = new ToolStripMenuItem();
             expertToolStripMenuItem = new ToolStripMenuItem();
             customToolStripMenuItem = new ToolStripMenuItem();
+            exerciseToolStripMenuItem1 = new ToolStripMenuItem();
+            exerciseToolStripMenuItem = new ToolStripMenuItem();
             ClearButton = new Button();
             TextInput = new TextBox();
             ErrorTextBox = new TextBox();
@@ -158,6 +160,20 @@
             customToolStripMenuItem.Text = "Custom";
             customToolStripMenuItem.Click += customToolStripMenuItem_Click;
             // 
+            // exerciseToolStripMenuItem1
+            // 
+            exerciseToolStripMenuItem1.Name = "exerciseToolStripMenuItem1";
+            exerciseToolStripMenuItem1.Size = new Size(180, 22);
+            exerciseToolStripMenuItem1.Text = "Exercise";
+            exerciseToolStripMenuItem1.Click += exerciseToolStripMenuItem1_Click;
+            // 
+            // exerciseToolStripMenuItem
+            // 
+            exerciseToolStripMenuItem.Name = "exerciseToolStripMenuItem";
+            exerciseToolStripMenuItem.Size = new Size(180, 22);
+            exerciseToolStripMenuItem.Text = "Exercise";
+            exerciseToolStripMenuItem.Click += exerciseToolStripMenuItem1_Click;
+            // 
             // ClearButton
             // 
             ClearButton.BackColor = Color.FromArgb(171, 194, 232);
@@ -238,8 +254,10 @@
         private ToolStripMenuItem advancedToolStripMenuItem;
         private ToolStripMenuItem expertToolStripMenuItem;
         private ToolStripMenuItem customToolStripMenuItem;
+        private ToolStripMenuItem exerciseToolStripMenuItem;
         private Button ClearButton;
         private TextBox TextInput;
         private TextBox ErrorTextBox;
+        private ToolStripMenuItem exerciseToolStripMenuItem1;
     }
 }
